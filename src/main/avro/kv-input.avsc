@@ -1,0 +1,15 @@
+{
+	"type": "record",
+	"name": "KeyValueInputAvro",
+	"namespace": "io.github.syamantm.avro",
+	"fields": [
+    {
+          "name": "key",
+          "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    }
+	]
+}

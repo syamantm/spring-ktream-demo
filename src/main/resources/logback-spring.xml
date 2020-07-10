@@ -1,0 +1,28 @@
+<configuration scan="true" scanPeriod="15 seconds">
+  <springProperty scope="context" name="environment" source="app.environment"
+    defaultValue="unknown"/>
+  <springProfile name="development">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  </springProfile>
+
+  <springProfile name="default">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+        <customFields>{"env":"${environment}"}</customFields>
+      </encoder>
+    </appender>
+
+    <appender name="SPLITTER" class="com.latch.LengthSplittingAppender">
+      <appender-ref ref="STDOUT"/>
+      <maxLength>15000</maxLength>
+      <sequenceKey>seq</sequenceKey>
+    </appender>
+
+    <logger name="io.github.syamantm" level="INFO"/>
+
+    <root level="WARN">
+      <appender-ref ref="SPLITTER"/>
+    </root>
+
+  </springProfile>
+</configuration>

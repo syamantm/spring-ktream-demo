@@ -1,0 +1,37 @@
+app:
+  environment: ${ENVIRONMENT:local}
+spring:
+  cloud:
+    stream:
+      default:
+        producer:
+          useNativeEncoding: true
+        consumer:
+          useNativeEncoding: true
+      bindings:
+        input:
+          destination: input
+          content-type: application/*+avro
+        intermediate:
+          destination: input
+          content-type: application/*+avro
+          group: group-1
+          concurrency: 3
+        output:
+          destination: output
+          content-type: application/*+avro
+      kafka:
+        binder:
+          brokers: localhost:29092
+          configuration:
+            security.protocol: PLAINTEXT
+            commit.interval.ms: 1000
+          producer-properties:
+            key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            schema.registry.url: http://localhost:8082
+          consumer-properties:
+            key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            schema.registry.url: http://localhost:8082
+            specific.avro.reader: true

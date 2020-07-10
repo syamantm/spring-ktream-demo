@@ -1,0 +1,58 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.1.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id "com.commercehub.gradle.plugin.avro" version "0.21.0"
+	id 'java'
+}
+
+group = 'io.github.syamantm'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	maven {
+		url("https://packages.confluent.io/maven/")
+	}
+}
+
+ext {
+	set('springCloudVersion', "Hoxton.SR6")
+	set('confluentKafkaVersion', '5.4.1')
+}
+
+dependencies {
+	compile 'org.projectlombok:lombok:1.18.12'
+	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+	implementation 'org.apache.kafka:kafka-streams'
+	implementation 'org.springframework.cloud:spring-cloud-stream'
+	implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+	implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka-streams'
+	implementation 'org.springframework.cloud:spring-cloud-stream-schema:2.2.1.RELEASE'
+	compile "org.apache.avro:avro:1.10.0"
+	implementation 'io.confluent:kafka-schema-registry-client:5.4.1'
+	implementation('io.confluent:kafka-streams-avro-serde:5.4.1') {
+		exclude group: 'org.slf4j', module: 'slf4j-api'
+		exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+	}
+	implementation('io.confluent:kafka-avro-serializer:5.4.1') {
+		exclude group: 'org.slf4j', module: 'slf4j-api'
+		exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+	}
+	implementation 'net.logstash.logback:logstash-logback-encoder:6.4'
+	implementation 'com.latch:logback-length-splitting-appender:0.4.0'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
