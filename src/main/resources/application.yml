@@ -1,6 +1,9 @@
 app:
   environment: ${ENVIRONMENT:local}
+  schema.registry.url: http://localhost:8082
 spring:
+  application:
+    name: kstream
   cloud:
     stream:
       default:
@@ -29,9 +32,22 @@ spring:
           producer-properties:
             key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
             value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-            schema.registry.url: http://localhost:8082
+            schema.registry.url: ${app.schema.registry.url}
           consumer-properties:
             key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
             value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-            schema.registry.url: http://localhost:8082
+            schema.registry.url: ${app.schema.registry.url}
             specific.avro.reader: true
+        streams:
+          binder:
+            brokers: localhost:29092
+            configuration:
+              schema.registry.url: ${app.schema.registry.url}
+              commit:
+                interval:
+                  ms: 1000
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde

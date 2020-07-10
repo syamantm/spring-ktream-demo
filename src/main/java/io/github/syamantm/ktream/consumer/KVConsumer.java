@@ -3,6 +3,10 @@ package io.github.syamantm.ktream.consumer;
 import io.github.syamantm.avro.KeyValueInputAvro;
 import io.github.syamantm.avro.KeyValueOutputAvro;
 import io.github.syamantm.ktream.binding.ProcessBinding;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KeyValue;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Serialized;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -18,12 +22,11 @@ public class KVConsumer {
 
   @StreamListener(ProcessBinding.INPUT_INTERMEDIATE)
   @SendTo(ProcessBinding.OUTPUT)
-  public KeyValueOutputAvro processAggregation(KeyValueInputAvro request) {
-    LOGGER.info("Received request with key : {}", request.getKey());
-    return KeyValueOutputAvro.newBuilder()
-        .setKey(request.getKey())
-        .setValue(request.getValue())
+  public KStream<String, KeyValueOutputAvro> processAggregation(KStream<String, KeyValueInputAvro> stream) {
+    return stream.map((key, value) -> new KeyValue<>(key, KeyValueOutputAvro.newBuilder()
+        .setKey(key)
+        .setValue(value.getValue())
         .setJoinedField("TODO")
-        .build();
+        .build()));
   }
 }

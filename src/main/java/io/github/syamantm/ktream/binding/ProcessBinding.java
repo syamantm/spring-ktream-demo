@@ -1,5 +1,6 @@
 package io.github.syamantm.ktream.binding;
 
+import org.apache.kafka.streams.kstream.KStream;
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
@@ -15,8 +16,8 @@ public interface ProcessBinding {
   MessageChannel requestTopic();
 
   @Input(INPUT_INTERMEDIATE)
-  SubscribableChannel intermediate();
+  KStream intermediate();
 
   @Output(OUTPUT)
-  SubscribableChannel responseTopic();
+  KStream responseTopic();
 }

@@ -37,14 +37,34 @@ curl -v -X POST -H"Content-type: application/json" -d '{"key": "foo2", "value":"
 ## Consume messages
 Uee [zoe](https://adevinta.github.io/zoe/).
 
+### Zoe config 
+
+```yaml
+clusters:
+  default:
+    props:
+      bootstrap.servers: "localhost:29092"
+      key.deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      value.deserializer: "io.confluent.kafka.serializers.KafkaAvroDeserializer"
+      key.serializer: "org.apache.kafka.common.serialization.StringSerializer"
+      value.serializer: "io.confluent.kafka.serializers.KafkaAvroSerializer"
+      default.key.serde: "org.apache.kafka.common.serialization.Serdes$StringSerde"
+      default.value.serde: "io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde"
+
+    registry: "http://localhost:8082"
+
+    topics:
+      input:
+        name: "input-events-topic"
+        subject: "input-events-topic-value"
+
+runners:
+  default: "local"
+```
+
 ### All messages
 ```bash
 zoe  --output table --cluster default topics consume output
 ```
-### Filter messages
-Filter message with key `foo1`.
 
-```bash
-zoe  --output table --cluster default topics consume output --filter "key == 'foo1'"
-```
 
