@@ -24,6 +24,8 @@ ext {
 dependencies {
 	compile 'org.projectlombok:lombok:1.18.12'
 	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+	implementation 'org.mapstruct:mapstruct:1.3.1.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.1.Final'
 	implementation 'org.apache.kafka:kafka-streams'
 	implementation 'org.springframework.cloud:spring-cloud-stream'
 	implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
@@ -51,6 +53,10 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+
+avro {
+	enableDecimalLogicalType = true
 }
 
 test {

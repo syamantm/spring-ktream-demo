@@ -6,9 +6,15 @@
   </springProfile>
 
   <springProfile name="default">
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <encoder class="net.logstash.logback.encoder.LogstashEncoder">
         <customFields>{"env":"${environment}"}</customFields>
+      </encoder>
+    </appender>-->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
       </encoder>
     </appender>
 
@@ -19,6 +25,7 @@
     </appender>
 
     <logger name="io.github.syamantm" level="INFO"/>
+    <logger name="org.springframework" level="INFO"/>
 
     <root level="WARN">
       <appender-ref ref="SPLITTER"/>

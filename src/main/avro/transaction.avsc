@@ -1,0 +1,29 @@
+{
+  "type": "record",
+  "name": "TransactionAvro",
+  "namespace": "io.github.syamantm.avro",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "transactionId",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "logicalType": "timestamp-millis"
+    },
+    {
+      "name": "amount",
+      "type": {
+        "type": "bytes",
+        "logicalType": "decimal",
+        "precision": 15,
+        "scale": 5
+      }
+    }
+  ]
+}

@@ -3,7 +3,7 @@ app:
   schema.registry.url: http://localhost:8082
 spring:
   application:
-    name: kstream
+    name: kstream-demo
   cloud:
     stream:
       default:
@@ -12,11 +12,14 @@ spring:
         consumer:
           useNativeEncoding: true
       bindings:
-        input:
-          destination: input
+        user-input:
+          destination: user-event
           content-type: application/*+avro
-        intermediate:
-          destination: input
+        transaction-input:
+          destination: transaction-event
+          content-type: application/*+avro
+        transaction-intermediate:
+          destination: transaction-event
           content-type: application/*+avro
           group: group-1
           concurrency: 3
@@ -38,6 +41,7 @@ spring:
             value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
             schema.registry.url: ${app.schema.registry.url}
             specific.avro.reader: true
+
         streams:
           binder:
             brokers: localhost:29092
@@ -51,3 +55,13 @@ spring:
                   serde: org.apache.kafka.common.serialization.Serdes$StringSerde
                 value:
                   serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+          bindings:
+            user-input:
+              consumer:
+                valueSerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+                materializedAs: all-users
+
+            transaction-input:
+              consumer:
+                valueSerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+

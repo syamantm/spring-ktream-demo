@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class KeyValueData {
-  String key;
-  String value;
+public class UserRequest {
+  String userId;
+  String firstName;
+  String lastName;
+  String location;
 }

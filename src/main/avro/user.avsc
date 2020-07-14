@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "UserAvro",
+  "namespace": "io.github.syamantm.avro",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "firstName",
+      "type": "string"
+    },
+    {
+      "name": "lastName",
+      "type": "string"
+    },
+    {
+      "name": "location",
+      "type": "string"
+    }
+  ]
+}

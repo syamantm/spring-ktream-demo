@@ -1,7 +1,7 @@
 version: '3.5'
 
 networks:
-  rcalc:
+  bridge_network:
     name: kafka_network_default
     driver: bridge
 

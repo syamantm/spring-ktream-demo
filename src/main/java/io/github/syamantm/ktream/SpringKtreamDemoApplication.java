@@ -9,5 +9,4 @@ public class SpringKtreamDemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringKtreamDemoApplication.class, args);
 	}
-
 }
